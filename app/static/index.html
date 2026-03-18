@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Mafraria - Gestão de Pastelaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .card { @apply bg-white p-6 rounded-xl shadow-sm border border-gray-100; }
+        .stat-value { @apply text-2xl font-bold text-gray-800; }
+        .stat-label { @apply text-sm text-gray-500 uppercase tracking-wider; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white border-b border-gray-200 px-8 py-4">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <h1 class="text-xl font-bold text-gray-800">Pastelaria Mafraria <span class="text-blue-600">Analytics</span></h1>
+            <div class="flex gap-4">
+                <select id="loja_selecionada" class="border rounded px-3 py-1 text-sm">
+                    <option value="Barreiro">Barreiro</option>
+                    <option value="Quinta da Lomba">Quinta da Lomba</option>
+                    <option value="Pinhal Novo">Pinhal Novo</option>
+                </select>
+                <input type="date" id="data_inicio" class="border rounded px-3 py-1 text-sm" onchange="setMinDataFim()">
+                <input type="date" id="data_fim" class="border rounded px-3 py-1 text-sm">
+                <button onclick="atualizarDashboard()" class="bg-blue-600 text-white px-4 py-1 rounded text-sm hover:bg-blue-700">Atualizar</button>
+                <button onclick="downloadExcel()" class="bg-green-600 text-white px-4 py-1 rounded text-sm hover:bg-green-700">Baixar Excel (.xlsx)</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-8 space-y-8">
+        <!-- Stats Row -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6" id="stats-container">
+            <div class="card">
+                <p class="stat-label">Faturação Total</p>
+                <p class="stat-value" id="faturacao-total">€ 0.00</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Ticket Médio</p>
+                <p class="stat-value" id="ticket-medio">€ 0.00</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Total Quebras</p>
+                <p class="stat-value text-red-600" id="total-quebras">0</p>
+            </div>
+            <div class="card">
+                <p class="stat-label">Rácio Desperdício</p>
+                <p class="stat-value text-orange-600" id="racio-desperdicio">0%</p>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="card">
+                <h3 class="font-bold text-gray-700 mb-4">Comparativo entre Lojas (Faturação)</h3>
+                <canvas id="chartLojas"></canvas>
+            </div>
+            <div class="card">
+                <h3 class="font-bold text-gray-700 mb-4">Vendas por Horário (Picos e Horas Mortas)</h3>
+                <canvas id="chartHorarios"></canvas>
+            </div>
+            <div class="card">
+                <h3 class="font-bold text-gray-700 mb-4">Top 5 Produtos Mais Vendidos</h3>
+                <canvas id="chartProdutos"></canvas>
+            </div>
+            <div class="card">
+                <h3 class="font-bold text-gray-700 mb-4">Rentabilidade por Produto (Venda vs Quebra)</h3>
+                <canvas id="chartRentabilidade"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
